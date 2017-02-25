@@ -1,18 +1,61 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <title>Wi-Fi Tracking and User Analysis</title>
-    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+      div.container {
+        margin: 20px;
+      }
+      img {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      canvas {
+        position: absolute;;
+        left: 0;
+        top: 0;
+      }
+      div.loading {
+        display: none;
+      }
+    </style>
   </head>
   <body>
-    <h1>Wi-Fi Tracking and User Analysis</h1>
-    <p>Author: DENG,Zhiheng LI,Zhihang QIU,Yuan ZHANG,Yifeng</p>
-    <button id='deviceClass'>Device Classification</button>
-    <button id='pathGeneration'>Path Generation</button>
-    <canvas id="myCanvas" width="200" height="100" />
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse"> </nav>
+    <div class="jumbotron">
+      <div class="container">
+	<h1 class="display-3">Wi-Fi Tracking and User Analysis</h1>
+	<p>Author: DENG Zhiheng, LI Zhihang, QIU Yuan, ZHANG Yifeng</p>
+      </div>
+    </div>
+    <div class="buttons">
+      <div class="container">
+	<button class="btn btn-secondary" id="deviceClass" href="#" role="button">Device Classification »</button>
+	<button class="btn btn-secondary" id="pathGeneration" href="#" role="button">Path Generation »</button>
+      </div>
+    </div>
+    <div class="canvas">
+      <div class="container canvas" id="canvasContainer">
+        <img src="http://www.cctr.ust.hk/materials/conference/china-africa/images/campusMapLarge.jpg" width="500" height="500"/>
+	      <canvas id="myCanvas" width="500" height="500" />
+      </div>
+      <div class="container loading" id="loadingContainer">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" />
+      </div>
+    </div>
   </body>
 
   <script>
+
+
+
   function drawPoint(x, y, color = "#000000"){
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
@@ -23,14 +66,12 @@
     ctx.fill();
     //ctx.stroke();
   }
-
   function drawLine(x1, y1, x2, y2){
     ctx.beginPath();
     ctx.moveTo(x1,y1);
     ctx.lineTo(x2,y2);
     ctx.stroke();
   }
-
   var defaultData={
     device1:[
       {
@@ -68,10 +109,36 @@
     ],
   };
 
+  document.getElementById('deviceClass').onclick=  function(){
+      var canvasContainer = document.getElementById("canvasContainer");
+      var loadingContainer = document.getElementById("loadingContainer");
+      canvasContainer.style.display = "none";
+      loadingContainer.style.display = "initial";
+
+      setTimeout(function(){
+        var canvasContainer = document.getElementById("canvasContainer");
+        var loadingContainer = document.getElementById("loadingContainer");
+        canvasContainer.style.display = "initial";
+        loadingContainer.style.display = "none";
+      }, 3000);
+    };
+
+    document.getElementById('pathGeneration').onclick=  function(){
+        var canvasContainer = document.getElementById("canvasContainer");
+        var loadingContainer = document.getElementById("loadingContainer");
+        canvasContainer.style.display = "none";
+        loadingContainer.style.display = "initial";
+
+        setTimeout(function(){
+          var canvasContainer = document.getElementById("canvasContainer");
+          var loadingContainer = document.getElementById("loadingContainer");
+          canvasContainer.style.display = "initial";
+          loadingContainer.style.display = "none";
+        }, 3000);
+      };
+
   var c = document.getElementById("myCanvas");
   var ctx = c.getContext("2d");
-
-
   Object.keys(defaultData).map(function(deviceKey){
     var device = defaultData[deviceKey];
     var previousX = -1;
@@ -84,13 +151,9 @@
       previousX = point.x;
       previousY = point.y;
     })
-
   });
-
   //ctx.moveTo(0,0);
   //ctx.lineTo(200,100);
   //ctx.stroke();
-
-
   </script>
 </html>
